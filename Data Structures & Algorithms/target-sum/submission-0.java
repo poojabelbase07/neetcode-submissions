@@ -1,0 +1,32 @@
+class Solution {
+
+    public int findTargetSumWays(int[] nums, int target) {
+
+        int totalSum = 0;
+
+        for (int num : nums) {
+            totalSum += num;
+        }
+
+        // impossible cases
+        if (Math.abs(target) > totalSum ||
+            (totalSum + target) % 2 != 0) {
+            return 0;
+        }
+
+        int subsetSum = (totalSum + target) / 2;
+
+        int[] dp = new int[subsetSum + 1];
+        dp[0] = 1;
+
+        for (int num : nums) {
+
+            for (int sum = subsetSum; sum >= num; sum--) {
+
+                dp[sum] += dp[sum - num];
+            }
+        }
+
+        return dp[subsetSum];
+    }
+}
